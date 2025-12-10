@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Cậu - Mùa Giáng Sinh Yêu Thương</title>
+    <!-- Import Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- CẤU HÌNH NỀN SÁNG RỰC RỠ --- */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* Gradient sáng: Hồng phấn pha chút đỏ ấm */
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #ffc1c1 100%);
+            font-family: 'Nunito', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- HIỆU ỨNG STICKER BAY --- */
+        .sticker-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .sticker {
+            position: absolute;
+            user-select: none;
+            animation: floatSticker linear infinite;
+            opacity: 0.8;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+        }
+
+        @keyframes floatSticker {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* --- CARD CHÍNH --- */
+        .love-card {
+            background: rgba(255, 255, 255, 0.85); /* Nền trắng đục sáng sủa */
+            backdrop-filter: blur(12px);
+            border: 4px solid #fff;
+            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.15);
+            border-radius: 30px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 650px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .love-card.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Khung ảnh trang trí */
+        .photo-frame {
+            width: 120px;
+            height: 120px;
+            margin: -80px auto 20px; /* Đẩy lên trên card */
+            position: relative;
+            background: #fff;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ff4d4d;
+        }
+
+        .deco-icon {
+            position: absolute;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+        .deco-top-left { top: -10px; left: -10px; animation-delay: 0s; }
+        .deco-bottom-right { bottom: -10px; right: -10px; animation-delay: 1s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: #d63031; /* Màu đỏ đậm */
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0px #fff, 3px 3px 0px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            color: #2d3436;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Vùng chứa văn bản đánh máy */
+        .letter-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px dashed #ffb8b8; /* Viền nét đứt dễ thương */
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #4a4a4a;
+            text-align: justify;
+            min-height: 200px;
+            max-height: 350px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Thanh cuộn đẹp */
+        .letter-content::-webkit-scrollbar { width: 6px; }
+        .letter-content::-webkit-scrollbar-thumb { background-color: #ffcccc; border-radius: 10px; }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: #d63031;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Nút mở thiệp */
+        #open-btn {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 75, 43, 0.4);
+            transition: transform 0.3s;
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            z-index: 100;
+        }
+
+        #open-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden { display: none !important; }
+
+        /* Decorative corners inside card */
+        .corner-deco {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            opacity: 0.5;
+        }
+        .c-tl { top: 10px; left: 10px; border-top: 3px solid #ff4d4d; border-left: 3px solid #ff4d4d; border-top-left-radius: 10px; }
+        .c-br { bottom: 10px; right: 10px; border-bottom: 3px solid #ff4d4d; border-right: 3px solid #ff4d4d; border-bottom-right-radius: 10px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Container cho Sticker bay -->
+    <div id="sticker-container" class="sticker-container"></div>
+
+    <!-- Nút mở đầu -->
+    <button id="open-btn">
+        <i class="fas fa-envelope-open-text"></i> Nhận thư từ "Người ấy"
+    </button>
+
+    <!-- Thiệp Chính -->
+    <div id="card" class="love-card hidden">
+        <!-- Ảnh đại diện -->
+        <div class="photo-frame">
+            <span class="deco-icon deco-top-left">🎄</span>
+            <img src="https://images.unsplash.com/photo-1544299882-965a9e3b4465?q=80&w=200&auto=format&fit=crop" alt="Us">
+            <span class="deco-icon deco-bottom-right">💖</span>
+        </div>
+
+        <!-- Tiêu đề -->
+        <h1>Merry Christmas!</h1>
+        <div class="subtitle">Gửi Bạn Cùng "Nhà" ❤️</div>
+
+        <!-- Góc trang trí -->
+        <div class="corner-deco c-tl"></div>
+        <div class="corner-deco c-br"></div>
+
+        <!-- Nội dung thư -->
+        <div class="letter-content" id="scroll-box">
+            <span id="type-text"></span><span class="cursor"></span>
+        </div>
+
+        <div class="mt-6 text-red-500 text-2xl animate-pulse">
+            <i class="fas fa-heart"></i> <i class="fas fa-gift"></i> <i class="fas fa-heart"></i>
+        </div>
+    </div>
+
+    <script>
+        // --- CẤU HÌNH LỜI CHÚC (DÀI HƠN, TÌNH CẢM HƠN) ---
+        const message = `Gửi cậu, cô gái bằng tuổi tớ! 🎄
+
+        Mùa Giáng sinh năm nay thật rực rỡ, nhưng tớ biết không có ánh đèn nào lung linh bằng nụ cười của cậu cả. Thật may mắn vì thanh xuân của tớ, từ những ngày mình còn là bạn bè ngây ngô cho đến bây giờ, lúc nào cũng có hình bóng cậu.
+
+        Người ta bảo yêu người bằng tuổi là cùng nhau trưởng thành. Cảm ơn cậu vì đã luôn bao dung cho sự trẻ con của tớ, và cũng cảm ơn vì đã cho tớ cơ hội được che chở cậu theo cách của một người đàn ông.
+
+        Chúc "em bé" của tớ một mùa Noel ấm áp, ăn thật ngon, mặc thật đẹp và nhận được nhiều quà (quà to nhất là tớ đây rồi nhé!). Mong rằng không chỉ Giáng sinh này, mà cả những mùa đông sau nữa, bàn tay tớ vẫn sẽ là nơi cậu tìm đến khi thấy lạnh.
+
+        Yêu cậu rất nhiều! ❤️
+        Merry Christmas, My Love!`;
+
+        // --- DANH SÁCH STICKER ---
+        const stickers = ['❄️', '🎄', '🎅', '🦌', '🎁', '💖', '🧸', '🔔', '✨', '🍪'];
+
+        const container = document.getElementById('sticker-container');
+        const openBtn = document.getElementById('open-btn');
+        const card = document.getElementById('card');
+        const typeText = document.getElementById('type-text');
+        const scrollBox = document.getElementById('scroll-box');
+
+        // --- HÀM TẠO STICKER RƠI ---
+        function createSticker() {
+            const el = document.createElement('div');
+            el.classList.add('sticker');
+            el.innerText = stickers[Math.floor(Math.random() * stickers.length)];
+            
+            // Random vị trí và kích thước
+            el.style.left = Math.random() * 100 + 'vw';
+            const size = Math.random() * 2 + 1.5; // 1.5rem đến 3.5rem
+            el.style.fontSize = size + 'rem';
+            
+            // Random thời gian bay
+            const duration = Math.random() * 5 + 5; // 5s đến 10s
+            el.style.animationDuration = duration + 's';
+
+            container.appendChild(el);
+
+            // Xóa sau khi bay xong để nhẹ máy
+            setTimeout(() => {
+                el.remove();
+            }, duration * 1000);
+        }
+
+        // --- HÀM ĐÁNH MÁY (TYPEWRITER) ---
+        function typeWriter() {
+            let i = 0;
+            const speed = 50; // Tốc độ gõ
+
+            function typing() {
+                if (i < message.length) {
+                    const char = message.charAt(i);
+                    
+                    // Xử lý xuống dòng
+                    if (char === '\n') {
+                        typeText.innerHTML += '<br>';
+                    } else {
+                        typeText.innerHTML += char;
+                    }
+                    
+                    i++;
+                    
+                    // Tự động cuộn xuống nếu văn bản dài
+                    scrollBox.scrollTop = scrollBox.scrollHeight;
+                    
+                    setTimeout(typing, speed);
+                }
+            }
+            typing();
+        }
+
+        // --- XỬ LÝ SỰ KIỆN ---
+        openBtn.addEventListener('click', () => {
+            // Ẩn nút
+            openBtn.style.transform = 'scale(0)';
+            setTimeout(() => openBtn.classList.add('hidden'), 300);
+
+            // Hiện card
+            card.classList.remove('hidden');
+            // Timeout nhỏ để transition hoạt động
+            setTimeout(() => {
+                card.classList.add('active');
+                // Bắt đầu gõ chữ sau khi card hiện
+                setTimeout(typeWriter, 1000);
+            }, 100);
+
+            // Bắt đầu mưa sticker (tạo nhiều ngay lập tức)
+            for(let k=0; k<10; k++) setTimeout(createSticker, k*200);
+            // Duy trì mưa sticker
+            setInterval(createSticker, 400);
+        });
+
+    </script>
+</body>
+</html>
